@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects — Anish Sharma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <style>
+        :root {
+            --bg-900: #0B0B0D;
+            --bg-800: #111116;
+            --accent: #B5FF6D;
+            --text-100: #F6F7FF;
+            --text-300: #A9A9BD;
+            --border: #27272A;
+        }
+
+        body {
+            background-color: var(--bg-900);
+            color: var(--text-100);
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+        }
+
+        .font-clash {
+            font-family: 'Clash Display', sans-serif;
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        /* Navigation Glassmorphism */
+        .glass-nav {
+            background: rgba(17, 17, 22, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+        }
+
+        .nav-link {
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Filter Tabs */
+        /* Filter Tabs */
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.7;
+            filter: grayscale(0.3);
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .filter-tab img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+            /* Make icons white */
+        }
+
+        .filter-tab.active {
+            opacity: 1;
+            filter: grayscale(0);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .filter-tab:hover {
+            opacity: 1;
+            filter: grayscale(0);
+            transform: translateY(-1px);
+        }
+
+        /* Project Cards */
+        .project-card {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .project-image-wrapper {
+            aspect-ratio: 16/10;
+            border-radius: 32px;
+            overflow: hidden;
+            background: #1a1a1e;
+        }
+
+        .project-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover .project-image-wrapper img {
+            transform: scale(1.05);
+        }
+
+        #color-bends-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <div class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-fit">
+        <nav class="glass-nav flex items-center gap-8 px-8 py-3">
+            <div class="text-xl font-bold font-clash tracking-tighter mr-4">AS</div>
+            <div class="hidden md:flex items-center gap-8 text-[13px] font-medium text-text-300">
+                <a href="alt.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link active text-white">Projects</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-48 pb-12 px-6 md:px-12 lg:px-24 overflow-hidden">
+        <div id="color-bends-canvas"></div>
+        <div class="max-w-[1440px] mx-auto">
+            <span class="text-accent text-sm font-medium uppercase tracking-widest block mb-4"
+                data-aos="fade-up">Portfolio</span>
+            <h1 class="font-clash font-semibold text-[clamp(2.5rem,8vw,6.5rem)] leading-[0.9] tracking-tighter mb-16"
+                data-aos="fade-up" data-aos-delay="100">
+                Creating next level <br> digital products.
+            </h1>
+
+            <!-- Filters -->
+            <div class="flex items-center gap-3 mb-20 overflow-x-auto no-scrollbar py-4" data-aos="fade-up"
+                data-aos-delay="200">
+                <div class="filter-tab active bg-white !text-black !opacity-100 !filter-none" data-filter="all">
+                    All
+                </div>
+
+                <div class="filter-tab bg-[#157A3C]" data-filter="social">
+                    <img src="assets/icons/share.svg" alt=""> Social Media
+                </div>
+
+                <div class="filter-tab bg-[#2995B2]" data-filter="email">
+                    <img src="assets/icons/envelope.svg" alt=""> Email
+                </div>
+
+                <div class="filter-tab bg-[#C2169B]" data-filter="illustrations">
+                    <img src="assets/icons/palette.svg" alt=""> Illustrations
+                </div>
+
+                <div class="filter-tab bg-[#1A8974]" data-filter="print">
+                    <img src="assets/icons/print.svg" alt=""> Print
+                </div>
+
+                <div class="filter-tab bg-[#BA2323]" data-filter="web">
+                    <img src="assets/icons/site-alt.svg" alt=""> Website Assets
+                </div>
+
+                <div class="filter-tab bg-[#4828B6]" data-filter="ux">
+                    <img src="assets/icons/web-design.svg" alt=""> UI / UX
+                </div>
+
+                <div class="filter-tab bg-[#E8832E]" data-filter="packaging">
+                    <img src="assets/icons/box-open.svg" alt=""> Packaging
+                </div>
+
+                <div class="filter-tab bg-[#135CC5]" data-filter="branding">
+                    <img src="assets/icons/rules.svg" alt=""> Branding
+                </div>
+
+                <div class="filter-tab bg-[#BC2B4E]" data-filter="logo">
+                    <i data-lucide="pen-tool" class="w-4 h-4"></i> Logos
+                </div>
+            </div>
+
+            <!-- Project Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-24 mb-32">
+                <!-- Nepal Tea Collective -->
+                <a href="ntc.html" class="project-card group" data-aos="fade-up"
+                    data-category="packaging email social branding illustrations web print">
+                    <div class="project-image-wrapper p-8 bg-[#E2FFC1]">
+                        <img src="assets/ntc-banner.png" alt="Nepal Tea Collective"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">Nepal Tea Collective</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">F&B E-Commerce &
+                                Wholesale</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- MOCO -->
+                <a href="moco.html" class="project-card group" data-aos="fade-up" data-aos-delay="100"
+                    data-category="branding email social illustrations ux web print">
+                    <div class="project-image-wrapper p-8 bg-[#CDEFFF]">
+                        <img src="assets/moco-banner.png" alt="MOCO"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">MOCO</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Financial Tech</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- WePlay -->
+                <a href="weplay.html" class="project-card group" data-aos="fade-up"
+                    data-category="branding social illustrations ux web print">
+                    <div class="project-image-wrapper p-8 bg-[#FFD6D6]">
+                        <img src="assets/weplay-banner.png" alt="WePlay"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">WePlay</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Sports Tech</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Yamaha Music -->
+                <a href="yamaha.html" class="project-card group" data-aos="fade-up" data-aos-delay="100"
+                    data-category="branding social print web">
+                    <div class="project-image-wrapper p-8 bg-[#D6DFFF]">
+                        <img src="assets/yamaha-banner.png" alt="Yamaha Music"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">Yamaha Music</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Music Store</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- US Embassy Nepal -->
+                <a href="american-embassy.html" class="project-card group" data-aos="fade-up"
+                    data-category="branding print">
+                    <div class="project-image-wrapper p-8 bg-[#F0F2F5]">
+                        <img src="assets/american-banner.png" alt="US Embassy Nepal"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">US Embassy Nepal</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Handbook Design</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Kathmandu Bite Sized -->
+                <a href="kathmandu-bite-sized.html" class="project-card group" data-aos="fade-up" data-aos-delay="100"
+                    data-category="branding illustrations print">
+                    <div class="project-image-wrapper p-8 bg-[#FFD6D6]">
+                        <img src="assets/kathmandu-bite-banner.png" alt="Kathmandu Bite Sized"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">Kathmandu Bite Sized</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Book Cover Design</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- One House Solution -->
+                <a href="one-house.html" class="project-card group" data-aos="fade-up"
+                    data-category="branding print web">
+                    <div class="project-image-wrapper p-8 bg-[#CDEFFF]">
+                        <img src="assets/ohs-banner.png" alt="One House Solution"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">One House Solution</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Report Design</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- FitBar -->
+                <a href="fitbar.html" class="project-card group" data-aos="fade-up" data-aos-delay="100"
+                    data-category="packaging branding print">
+                    <div class="project-image-wrapper p-8 bg-[#FFECB3]">
+                        <img src="assets/project-1.png" alt="FitBar Packaging"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">FitBar Packaging</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Packaging Design</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ScholarPort -->
+                <a href="scholarport.html" class="project-card group" data-aos="fade-up"
+                    data-category="branding ux web logo">
+                    <div class="project-image-wrapper p-8 bg-[#D6E4FF]">
+                        <img src="assets/scholarport-banner.png" alt="ScholarPort Identity"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">ScholarPort</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Branding Guideline
+                            </p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- WWF -->
+                <a href="wwf.html" class="project-card group" data-aos="fade-up" data-aos-delay="100"
+                    data-category="print illustrations social">
+                    <div class="project-image-wrapper p-8 bg-[#D1FAE5]">
+                        <img src="assets/wwf-banner.png" alt="WWF Poster Design"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">WWF Poster Design</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Poster Design</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Attnd -->
+                <a href="attnd.html" class="project-card group" data-aos="fade-up" data-category="ux web branding">
+                    <div class="project-image-wrapper p-8 bg-[#F3E8FF]">
+                        <img src="assets/attnd-banner.png" alt="Attnd"
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="mt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-clash text-3xl font-bold mb-2">Attnd</h3>
+                            <p class="text-text-300 font-medium tracking-widest uppercase text-xs">Attendance System</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-full border border-white/10 group-hover:border-accent group-hover:text-accent transition-all">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 md:px-12 lg:px-24 border-t border-white/5">
+        <div class="max-w-[1440px] mx-auto flex flex-col md:row justify-between items-center gap-8">
+            <p class="text-text-300 text-sm font-medium">© 2026 Anish Sharma. All rights reserved.</p>
+            <div class="flex items-center gap-8">
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-medium text-[12px] tracking-widest">Linkedin</a>
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-medium text-[12px] tracking-widest">Instagram</a>
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-medium text-[12px] tracking-widest">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({ duration: 600, once: true, offset: 50, easing: 'ease-out-quad' });
+        lucide.createIcons();
+
+        // Project Filtering Logic
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const filter = tab.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    const categories = card.getAttribute('data-category').split(' ');
+                    if (filter === 'all' || categories.includes(filter)) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.style.opacity = '1', 10);
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => card.style.display = 'none', 300);
+                    }
+                });
+            });
+        });
+
+        // Color Bends Effect Logic
+        (function () {
+            const container = document.getElementById('color-bends-canvas');
+            if (!container) return;
+
+            const MAX_COLORS = 8;
+            const frag = `
+            #define MAX_COLORS ${MAX_COLORS}
+            uniform vec2 uCanvas;
+            uniform float uTime;
+            uniform float uSpeed;
+            uniform vec2 uRot;
+            uniform int uColorCount;
+            uniform vec3 uColors[MAX_COLORS];
+            uniform int uTransparent;
+            uniform float uScale;
+            uniform float uFrequency;
+            uniform float uWarpStrength;
+            uniform vec2 uPointer;
+            uniform float uMouseInfluence;
+            uniform float uParallax;
+            uniform float uNoise;
+            varying vec2 vUv;
+
+            void main() {
+              float t = uTime * uSpeed;
+              vec2 p = vUv * 2.0 - 1.0;
+              p += uPointer * uParallax * 0.1;
+              vec2 rp = vec2(p.x * uRot.x - p.y * uRot.y, p.x * uRot.y + p.y * uRot.x);
+              vec2 q = vec2(rp.x * (uCanvas.x / uCanvas.y), rp.y);
+              q /= max(uScale, 0.0001);
+              q /= 0.5 + 0.2 * dot(q, q);
+              q += 0.2 * cos(t);
+              vec2 toward = (uPointer - rp);
+              q += toward * uMouseInfluence * 0.2;
+
+                vec3 col = vec3(0.0);
+                float a = 1.0;
+
+                if (uColorCount > 0) {
+                  vec2 s = q;
+                  vec3 sumCol = vec3(0.0);
+                  float cover = 0.0;
+                  for (int i = 0; i < MAX_COLORS; ++i) {
+                        if (i >= uColorCount) break;
+                        s -= 0.01;
+                        vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+                        float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+                        float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+                        float kMix = pow(kBelow, 0.3);
+                        float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+                        vec2 disp = (r - s) * kBelow;
+                        vec2 warped = s + disp * gain;
+                        float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+                        float m = mix(m0, m1, kMix);
+                        float w = 1.0 - exp(-6.0 / exp(6.0 * m));
+                        sumCol += uColors[i] * w;
+                        cover = max(cover, w);
+                  }
+                  col = clamp(sumCol, 0.0, 1.0);
+                  a = uTransparent > 0 ? cover : 1.0;
+                } else {
+                    vec2 s = q;
+                    for (int k = 0; k < 3; ++k) {
+                        s -= 0.01;
+                        vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+                        float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+                        float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+                        float kMix = pow(kBelow, 0.3);
+                        float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+                        vec2 disp = (r - s) * kBelow;
+                        vec2 warped = s + disp * gain;
+                        float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+                        float m = mix(m0, m1, kMix);
+                        col[k] = 1.0 - exp(-6.0 / exp(6.0 * m));
+                    }
+                    a = uTransparent > 0 ? max(max(col.r, col.g), col.b) : 1.0;
+                }
+
+                if (uNoise > 0.0001) {
+                  float n = fract(sin(dot(gl_FragCoord.xy + vec2(uTime), vec2(12.9898, 78.233))) * 43758.5453123);
+                  col += (n - 0.5) * uNoise;
+                  col = clamp(col, 0.0, 1.0);
+                }
+
+                vec3 rgb = (uTransparent > 0) ? col * a : col;
+                gl_FragColor = vec4(rgb, a);
+            }
+            `;
+
+            const vert = `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = vec4(position, 1.0);
+            }
+            `;
+
+            const config = {
+                rotation: 120,
+                speed: 0.1,
+                colors: ['#B5FF6D', '#FFD86D', '#FF8F6D'],
+                transparent: false,
+                scale: 1.5,
+                frequency: 1,
+                warpStrength: 1.2,
+                mouseInfluence: 0.4,
+                parallax: 0.2,
+                noise: 0.05
+            };
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+            const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'high-performance' });
+
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            const toVec3 = (hex) => {
+                const h = hex.replace('#', '').trim();
+                const v = h.length === 3
+                    ? [parseInt(h[0] + h[0], 16), parseInt(h[1] + h[1], 16), parseInt(h[2] + h[2], 16)]
+                    : [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+                return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
+            };
+
+            const uColorsArray = config.colors.map(toVec3);
+            while (uColorsArray.length < MAX_COLORS) uColorsArray.push(new THREE.Vector3(0, 0, 0));
+
+            const material = new THREE.ShaderMaterial({
+                vertexShader: vert,
+                fragmentShader: frag,
+                uniforms: {
+                    uCanvas: { value: new THREE.Vector2(container.clientWidth, container.clientHeight) },
+                    uTime: { value: 0 },
+                    uSpeed: { value: config.speed },
+                    uRot: { value: new THREE.Vector2(0, 0) },
+                    uColorCount: { value: config.colors.length },
+                    uColors: { value: uColorsArray },
+                    uTransparent: { value: config.transparent ? 1 : 0 },
+                    uScale: { value: config.scale },
+                    uFrequency: { value: config.frequency },
+                    uWarpStrength: { value: config.warpStrength },
+                    uPointer: { value: new THREE.Vector2(0, 0) },
+                    uMouseInfluence: { value: config.mouseInfluence },
+                    uParallax: { value: config.parallax },
+                    uNoise: { value: config.noise }
+                },
+                transparent: true
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const pointer = new THREE.Vector2(0, 0);
+            const pointerSmooth = new THREE.Vector2(0, 0);
+
+            window.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) * 2 - 1;
+                const y = -(e.clientY / window.innerHeight) * 2 + 1;
+                pointer.set(x, y);
+            });
+
+            window.addEventListener('resize', () => {
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                material.uniforms.uCanvas.value.set(container.clientWidth, container.clientHeight);
+            });
+
+            const clock = new THREE.Clock();
+            function animate() {
+                const elapsed = clock.getElapsedTime();
+                material.uniforms.uTime.value = elapsed;
+                const rad = (config.rotation * Math.PI) / 180;
+                material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
+                pointerSmooth.lerp(pointer, 0.05);
+                material.uniforms.uPointer.value.copy(pointerSmooth);
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+    </script>
+</body>
+
+</html>

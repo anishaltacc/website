@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Anish Sharma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <style>
+        :root {
+            --bg-900: #0B0B0D;
+            --bg-800: #111116;
+            --accent: #B5FF6D;
+            --text-100: #F6F7FF;
+            --text-300: #A9A9BD;
+            --border: #27272A;
+        }
+
+        body {
+            background-color: var(--bg-900);
+            color: var(--text-100);
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+        }
+
+        .font-clash {
+            font-family: 'Clash Display', sans-serif;
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .bg-accent {
+            background-color: var(--accent);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-900);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        /* Navigation Glassmorphism */
+        .glass-nav {
+            background: rgba(17, 17, 22, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+        }
+
+        .nav-link {
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Spinning Badge */
+        .spinning-badge {
+            width: 140px;
+            height: 140px;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Tech Marquee */
+        .marquee {
+            display: flex;
+            overflow: hidden;
+            gap: 4rem;
+            padding: 2.5rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .marquee-content {
+            flex-shrink: 0;
+            display: flex;
+            gap: 6rem;
+            min-width: 100%;
+            animation: scroll 30s linear infinite;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Work History & Process Cards */
+        .experience-item {
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 0;
+            transition: border-color 0.3s ease;
+        }
+
+        .experience-item:hover {
+            border-color: var(--accent);
+        }
+
+        .process-card {
+            background: var(--bg-800);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 3rem;
+            transition: all 0.4s ease;
+        }
+
+        .process-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+        }
+
+        /* Profile Image Mask */
+        .profile-mask {
+            border-radius: 40px;
+            overflow: hidden;
+            background: var(--bg-800);
+            aspect-ratio: 1/1;
+        }
+
+        /* Button */
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: var(--text-100);
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        #color-bends-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <div class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-fit">
+        <nav class="glass-nav flex items-center gap-8 px-8 py-3">
+            <div class="text-xl font-bold font-clash tracking-tighter mr-4">AS</div>
+            <div class="hidden md:flex items-center gap-8 text-[13px] font-medium text-text-300">
+                <a href="alt.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-48 pb-20 px-6 md:px-12 lg:px-24 overflow-hidden">
+        <div id="color-bends-canvas"></div>
+        <div class="max-w-[1440px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <span class="text-accent text-sm font-medium uppercase tracking-widest block mb-4">About Me</span>
+                    <h1
+                        class="font-clash font-semibold text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.9] tracking-tighter mb-8">
+                        A creative developer <br>& digital designer.
+                    </h1>
+                    <p class="text-text-300 text-xl leading-relaxed max-w-xl mb-12">
+                        I collaborate with brands globally to design impactful, mission-focused websites that drive
+                        results and achieve business goals.
+                    </p>
+                    <div class="flex items-center gap-6">
+                        <a href="#" class="btn-primary flex items-center gap-2">
+                            My Resume <i data-lucide="download" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative flex justify-center lg:justify-end" data-aos="fade-left">
+                    <div class="profile-mask w-full max-w-md">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2574&auto=format&fit=crop"
+                            alt="Anish Profile" class="grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                    <!-- Spinning Lets Talk -->
+                    <div class="absolute -bottom-10 -left-10 hidden md:block">
+                        <div class="relative w-36 h-36 bg-accent rounded-full flex items-center justify-center">
+                            <svg class="spinning-badge" viewBox="0 0 100 100">
+                                <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                                    fill="none" />
+                                <text class="font-bold text-[8px] uppercase tracking-widest fill-black">
+                                    <textPath href="#circlePath">
+                                        Let's Talk • Let's Talk • Let's Talk •
+                                    </textPath>
+                                </text>
+                            </svg>
+                            <i data-lucide="arrow-up-right" class="absolute w-8 h-8 text-black"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tech Marquee -->
+    <div class="marquee mt-12 mb-32">
+        <div class="marquee-content font-clash font-semibold text-2xl text-white/40 grayscale opacity-50">
+            <span>TypeScript</span> <span>React.js</span> <span>Next.js</span> <span>Angular</span> <span>Redux</span>
+            <span>Node.js</span> <span>Express.js</span> <span>PostgreSQL</span> <span>Docker</span>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+            <span>TypeScript</span> <span>React.js</span> <span>Next.js</span> <span>Angular</span> <span>Redux</span>
+            <span>Node.js</span> <span>Express.js</span> <span>PostgreSQL</span> <span>Docker</span>
+        </div>
+    </div>
+
+    <!-- Work History -->
+    <section class="py-20 px-6 md:px-12 lg:px-24">
+        <div class="max-w-[1440px] mx-auto">
+            <h2 class="font-clash text-5xl font-bold tracking-tighter mb-12" data-aos="fade-up">Work History</h2>
+
+            <div class="space-y-2">
+                <div class="experience-item group flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                    data-aos="fade-up">
+                    <div>
+                        <h3 class="font-clash text-3xl font-bold">Founder</h3>
+                        <p class="text-text-300 font-medium">Design and Code</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium">Jan 2021 — Present</p>
+                    </div>
+                </div>
+
+                <div class="experience-item group flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                    data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <h3 class="font-clash text-3xl font-bold">Design Engineer</h3>
+                        <p class="text-text-300 font-medium">BlackboxAI</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium">Feb 2025 — Mar 2025</p>
+                    </div>
+                </div>
+
+                <div class="experience-item group flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div>
+                        <h3 class="font-clash text-3xl font-bold">UI/UX Designer</h3>
+                        <p class="text-text-300 font-medium">Social3</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium">Aug 2022 — Sep 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Design Process -->
+    <section class="py-32 px-6 md:px-12 lg:px-24">
+        <div class="max-w-[1440px] mx-auto">
+            <h2 class="font-clash text-5xl font-bold tracking-tighter mb-16" data-aos="fade-up">My Design Process</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="process-card" data-aos="fade-up">
+                    <span class="text-accent font-clash text-4xl font-bold opacity-30 mb-8 block">01</span>
+                    <h3 class="font-clash text-2xl font-bold mb-4">Strategize</h3>
+                    <p class="text-text-300">Detailed discussions to define project goals, target audience, and core
+                        functionality.</p>
+                </div>
+                <div class="process-card" data-aos="fade-up" data-aos-delay="100">
+                    <span class="text-accent font-clash text-4xl font-bold opacity-30 mb-8 block">02</span>
+                    <h3 class="font-clash text-2xl font-bold mb-4">Wireframe</h3>
+                    <p class="text-text-300">Translating ideas into skeleton structures to map out user journeys and
+                        site flow.</p>
+                </div>
+                <div class="process-card" data-aos="fade-up" data-aos-delay="200">
+                    <span class="text-accent font-clash text-4xl font-bold opacity-30 mb-8 block">03</span>
+                    <h3 class="font-clash text-2xl font-bold mb-4">Design</h3>
+                    <p class="text-text-300">Creating high-fidelity visuals that balance aesthetics with intuitive user
+                        experience.</p>
+                </div>
+                <div class="process-card" data-aos="fade-up">
+                    <span class="text-accent font-clash text-4xl font-bold opacity-30 mb-8 block">04</span>
+                    <h3 class="font-clash text-2xl font-bold mb-4">Develop</h3>
+                    <p class="text-text-300">Building a performant, accessible, and responsive website using modern tech
+                        stacks.</p>
+                </div>
+                <div class="process-card" data-aos="fade-up" data-aos-delay="100">
+                    <span class="text-accent font-clash text-4xl font-bold opacity-30 mb-8 block">05</span>
+                    <h3 class="font-clash text-2xl font-bold mb-4">Quality Assurance</h3>
+                    <p class="text-text-300">Rigorous testing for speed, SEO, and functionality across all browsers and
+                        devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="py-32 px-6 md:px-12 lg:px-24 bg-accent/5">
+        <div class="max-w-[1440px] mx-auto text-center" data-aos="fade-up">
+            <span class="text-accent text-sm font-bold uppercase tracking-widest block mb-4">Community</span>
+            <h2 class="font-clash text-5xl md:text-7xl font-bold tracking-tighter mb-8 max-w-4xl mx-auto leading-[0.9]">
+                Design & Code Community
+            </h2>
+            <p class="text-text-300 text-xl max-w-2xl mx-auto mb-16">
+                Leading a global community of 5,000+ members, building a space for learning, sharing, and growth in
+                design and tech.
+            </p>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-10 bg-bg-800 rounded-3xl border border-white/5">
+                    <h4 class="font-clash text-4xl font-bold text-accent mb-2">5k+</h4>
+                    <p class="text-sm font-bold tracking-widest uppercase">Members</p>
+                </div>
+                <div class="p-10 bg-bg-800 rounded-3xl border border-white/5">
+                    <h4 class="font-clash text-4xl font-bold text-accent mb-2">25+</h4>
+                    <p class="text-sm font-bold tracking-widest uppercase">Events</p>
+                </div>
+                <div class="p-10 bg-bg-800 rounded-3xl border border-white/5">
+                    <h4 class="font-clash text-4xl font-bold text-accent mb-2">4yr+</h4>
+                    <p class="text-sm font-bold tracking-widest uppercase">Experience</p>
+                </div>
+                <div class="p-10 bg-bg-800 rounded-3xl border border-white/5">
+                    <h4 class="font-clash text-4xl font-bold text-accent mb-2">10k+</h4>
+                    <p class="text-sm font-bold tracking-widest uppercase">Resources</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 md:px-12 lg:px-24">
+        <div class="max-w-[1440px] mx-auto flex flex-col md:row justify-between items-center gap-8">
+            <p class="text-text-300 text-sm font-medium">© 2026 Anish Sharma. All rights reserved.</p>
+            <div class="flex items-center gap-8">
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-bold text-[12px] tracking-widest">Linkedin</a>
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-bold text-[12px] tracking-widest">Instagram</a>
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-bold text-[12px] tracking-widest">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({ duration: 600, once: true, offset: 50, easing: 'ease-out-quad' });
+        lucide.createIcons();
+
+        // Color Bends Effect Logic
+        (function () {
+            const container = document.getElementById('color-bends-canvas');
+            if (!container) return;
+
+            const MAX_COLORS = 8;
+            const frag = `
+            #define MAX_COLORS ${MAX_COLORS}
+            uniform vec2 uCanvas;
+            uniform float uTime;
+            uniform float uSpeed;
+            uniform vec2 uRot;
+            uniform int uColorCount;
+            uniform vec3 uColors[MAX_COLORS];
+            uniform int uTransparent;
+            uniform float uScale;
+            uniform float uFrequency;
+            uniform float uWarpStrength;
+            uniform vec2 uPointer;
+            uniform float uMouseInfluence;
+            uniform float uParallax;
+            uniform float uNoise;
+            varying vec2 vUv;
+
+            void main() {
+              float t = uTime * uSpeed;
+              vec2 p = vUv * 2.0 - 1.0;
+              p += uPointer * uParallax * 0.1;
+              vec2 rp = vec2(p.x * uRot.x - p.y * uRot.y, p.x * uRot.y + p.y * uRot.x);
+              vec2 q = vec2(rp.x * (uCanvas.x / uCanvas.y), rp.y);
+              q /= max(uScale, 0.0001);
+              q /= 0.5 + 0.2 * dot(q, q);
+              q += 0.2 * cos(t);
+              vec2 toward = (uPointer - rp);
+              q += toward * uMouseInfluence * 0.2;
+
+                vec3 col = vec3(0.0);
+                float a = 1.0;
+
+                if (uColorCount > 0) {
+                  vec2 s = q;
+                  vec3 sumCol = vec3(0.0);
+                  float cover = 0.0;
+                  for (int i = 0; i < MAX_COLORS; ++i) {
+                        if (i >= uColorCount) break;
+                        s -= 0.01;
+                        vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+                        float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+                        float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+                        float kMix = pow(kBelow, 0.3);
+                        float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+                        vec2 disp = (r - s) * kBelow;
+                        vec2 warped = s + disp * gain;
+                        float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+                        float m = mix(m0, m1, kMix);
+                        float w = 1.0 - exp(-6.0 / exp(6.0 * m));
+                        sumCol += uColors[i] * w;
+                        cover = max(cover, w);
+                  }
+                  col = clamp(sumCol, 0.0, 1.0);
+                  a = uTransparent > 0 ? cover : 1.0;
+                } else {
+                    vec2 s = q;
+                    for (int k = 0; k < 3; ++k) {
+                        s -= 0.01;
+                        vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+                        float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+                        float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+                        float kMix = pow(kBelow, 0.3);
+                        float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+                        vec2 disp = (r - s) * kBelow;
+                        vec2 warped = s + disp * gain;
+                        float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+                        float m = mix(m0, m1, kMix);
+                        col[k] = 1.0 - exp(-6.0 / exp(6.0 * m));
+                    }
+                    a = uTransparent > 0 ? max(max(col.r, col.g), col.b) : 1.0;
+                }
+
+                if (uNoise > 0.0001) {
+                  float n = fract(sin(dot(gl_FragCoord.xy + vec2(uTime), vec2(12.9898, 78.233))) * 43758.5453123);
+                  col += (n - 0.5) * uNoise;
+                  col = clamp(col, 0.0, 1.0);
+                }
+
+                vec3 rgb = (uTransparent > 0) ? col * a : col;
+                gl_FragColor = vec4(rgb, a);
+            }
+            `;
+
+            const vert = `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = vec4(position, 1.0);
+            }
+            `;
+
+            const config = {
+                rotation: 200,
+                speed: 0.1,
+                colors: ['#B5FF6D', '#FFD86D', '#FF8F6D'],
+                transparent: false,
+                scale: 1.5,
+                frequency: 1,
+                warpStrength: 1.2,
+                mouseInfluence: 0.4,
+                parallax: 0.2,
+                noise: 0.05
+            };
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+            const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'high-performance' });
+
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            const toVec3 = (hex) => {
+                const h = hex.replace('#', '').trim();
+                const v = h.length === 3
+                    ? [parseInt(h[0] + h[0], 16), parseInt(h[1] + h[1], 16), parseInt(h[2] + h[2], 16)]
+                    : [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+                return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
+            };
+
+            const uColorsArray = config.colors.map(toVec3);
+            while (uColorsArray.length < MAX_COLORS) uColorsArray.push(new THREE.Vector3(0, 0, 0));
+
+            const material = new THREE.ShaderMaterial({
+                vertexShader: vert,
+                fragmentShader: frag,
+                uniforms: {
+                    uCanvas: { value: new THREE.Vector2(container.clientWidth, container.clientHeight) },
+                    uTime: { value: 0 },
+                    uSpeed: { value: config.speed },
+                    uRot: { value: new THREE.Vector2(0, 0) },
+                    uColorCount: { value: config.colors.length },
+                    uColors: { value: uColorsArray },
+                    uTransparent: { value: config.transparent ? 1 : 0 },
+                    uScale: { value: config.scale },
+                    uFrequency: { value: config.frequency },
+                    uWarpStrength: { value: config.warpStrength },
+                    uPointer: { value: new THREE.Vector2(0, 0) },
+                    uMouseInfluence: { value: config.mouseInfluence },
+                    uParallax: { value: config.parallax },
+                    uNoise: { value: config.noise }
+                },
+                transparent: true
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const pointer = new THREE.Vector2(0, 0);
+            const pointerSmooth = new THREE.Vector2(0, 0);
+
+            window.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) * 2 - 1;
+                const y = -(e.clientY / window.innerHeight) * 2 + 1;
+                pointer.set(x, y);
+            });
+
+            window.addEventListener('resize', () => {
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                material.uniforms.uCanvas.value.set(container.clientWidth, container.clientHeight);
+            });
+
+            const clock = new THREE.Clock();
+            function animate() {
+                const elapsed = clock.getElapsedTime();
+                material.uniforms.uTime.value = elapsed;
+                const rad = (config.rotation * Math.PI) / 180;
+                material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
+                pointerSmooth.lerp(pointer, 0.05);
+                material.uniforms.uPointer.value.copy(pointerSmooth);
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+    </script>
+</body>
+
+</html>
