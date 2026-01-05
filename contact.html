@@ -187,9 +187,10 @@
         <nav class="glass-nav flex items-center gap-8 px-8 py-3">
             <div class="text-xl font-bold font-clash tracking-tighter mr-4">AS</div>
             <div class="hidden md:flex items-center gap-8 text-[13px] font-medium text-text-300">
-                <a href="alt.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Home</a>
                 <a href="projects.html" class="nav-link">Projects</a>
                 <a href="contact.html" class="nav-link active text-white">Contact</a>
+                <a href="shop.html" class="nav-link">Shop</a>
             </div>
         </nav>
     </div>
@@ -231,6 +232,42 @@
                             <textarea id="message" name="message" rows="6" placeholder="Tell me about your project..."
                                 class="form-input resize-none" required></textarea>
                         </div>
+
+                        <div>
+                            <label
+                                class="text-sm font-medium tracking-widest uppercase text-text-300 ml-2 block mb-3">How
+                                would you like me to respond? *</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="contact_method" value="whatsapp" checked
+                                        class="hidden peer">
+                                    <div
+                                        class="p-4 border-2 border-border rounded-2xl peer-checked:border-accent peer-checked:bg-accent/10 flex items-center justify-center gap-2 cursor-pointer transition-all hover:border-accent/50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z">
+                                            </path>
+                                        </svg>
+                                        <span class="font-semibold">WhatsApp</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="contact_method" value="email" class="hidden peer">
+                                    <div
+                                        class="p-4 border-2 border-border rounded-2xl peer-checked:border-accent peer-checked:bg-accent/10 flex items-center justify-center gap-2 cursor-pointer transition-all hover:border-accent/50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                        </svg>
+                                        <span class="font-semibold">Email</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn-submit">Send Message</button>
                     </form>
 
@@ -241,11 +278,33 @@
                             const name = document.getElementById('name').value;
                             const email = document.getElementById('email').value;
                             const message = document.getElementById('message').value;
+                            const contactMethod = document.querySelector('input[name="contact_method"]:checked').value;
 
+                            // WhatsApp message
+                            const whatsappMessage = `👋 NEW MESSAGE\n\n` +
+                                `👤 Name: ${name}\n` +
+                                `📧 Email: ${email}\n\n` +
+                                `💬 Message:\n${message}`;
+
+                            // Email
                             const subject = `New Project Inquiry from ${name}`;
                             const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
 
-                            window.location.href = `mailto:anishaltacc@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+                            // Open based on selection
+                            if (contactMethod === 'whatsapp') {
+                                const whatsappNumber = '9779808846005';
+                                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+                                window.open(whatsappUrl, '_blank');
+                            } else {
+                                const emailUrl = `mailto:anishaltacc@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+                                window.open(emailUrl, '_blank');
+                            }
+
+                            // Reset form
+                            this.reset();
+
+                            // Re-initialize lucide icons after reset
+                            setTimeout(() => lucide.createIcons(), 100);
                         });
                     </script>
                 </div>

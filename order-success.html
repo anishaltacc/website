@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed — Anish Sharma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-900: #0B0B0D;
+            --bg-800: #111116;
+            --accent: #B5FF6D;
+            --text-100: #F6F7FF;
+            --text-300: #A9A9BD;
+        }
+
+        body {
+            background-color: var(--bg-900);
+            color: var(--text-100);
+            font-family: 'Satoshi', sans-serif;
+        }
+
+        .font-clash {
+            font-family: 'Clash Display', sans-serif;
+        }
+
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 3;
+            stroke: var(--accent);
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px var(--accent);
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3;
+            stroke-miterlimit: 10;
+            stroke: var(--accent);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes scale {
+
+            0%,
+            100% {
+                transform: none;
+            }
+
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 40px var(--accent);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-2xl mx-auto text-center">
+        <svg class="checkmark mx-auto mb-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
+
+        <h1 class="font-clash text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+            Order Confirmed! 🎉
+        </h1>
+
+        <p class="text-xl text-text-300 mb-8 leading-relaxed">
+            Thank you for your order! We've received your order details and will contact you shortly to confirm
+            delivery.
+        </p>
+
+        <div class="bg-accent/10 border border-accent/20 rounded-3xl p-8 mb-8">
+            <h2 class="font-clash text-2xl font-bold mb-4 text-accent">What happens next?</h2>
+            <div class="space-y-4 text-left max-w-md mx-auto">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-1">
+                        <span class="text-accent font-bold">1</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Email Confirmation</p>
+                        <p class="text-sm text-text-300">Check your inbox for order details</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-1">
+                        <span class="text-accent font-bold">2</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold">We'll Contact You</p>
+                        <p class="text-sm text-text-300">Expect a call/message within 24 hours</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-1">
+                        <span class="text-accent font-bold">3</span>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Delivery Arranged</p>
+                        <p class="text-sm text-text-300">Pay cash when you receive your order</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="shop.html"
+                class="bg-accent text-black px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform">
+                Continue Shopping
+            </a>
+            <a href="index.html"
+                class="border-2 border-accent/30 text-accent px-8 py-4 rounded-full font-bold hover:bg-accent/10 transition-all">
+                Back to Home
+            </a>
+        </div>
+
+        <p class="text-sm text-text-300 mt-12">
+            Questions? Contact us at <a href="mailto:anishaltacc@gmail.com"
+                class="text-accent hover:underline">anishaltacc@gmail.com</a>
+        </p>
+    </div>
+</body>
+
+</html>

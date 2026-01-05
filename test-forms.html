@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0B0B0D;
+            color: white;
+        }
+
+        .test-section {
+            background: #111116;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #B5FF6D;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        label {
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"]:checked+.option {
+            border-color: #B5FF6D;
+            background: rgba(181, 255, 109, 0.1);
+        }
+
+        .option {
+            padding: 15px;
+            border: 2px solid #27272A;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: rgba(181, 255, 109, 0.5);
+        }
+
+        button {
+            background: #B5FF6D;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(181, 255, 109, 0.1);
+            border: 1px solid #B5FF6D;
+            border-radius: 10px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-section">
+        <h2>Test Contact Methods</h2>
+        <p>This will test if WhatsApp and Email links work correctly</p>
+
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="method" value="whatsapp" checked>
+                <div class="option">
+                    📱 WhatsApp
+                </div>
+            </label>
+            <label>
+                <input type="radio" name="method" value="email">
+                <div class="option">
+                    ✉️ Email
+                </div>
+            </label>
+        </div>
+
+        <button onclick="testContact()">Test Selected Method</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function testContact() {
+            const method = document.querySelector('input[name="method"]:checked').value;
+            const resultDiv = document.getElementById('result');
+
+            const whatsappMessage = `🧪 TEST MESSAGE\n\nThis is a test from your website form.\n\nIf you're seeing this, the WhatsApp integration is working! ✅`;
+            const emailSubject = 'Test Email from Website Form';
+            const emailBody = 'This is a test email.\n\nIf you received this, the email integration is working! ✅';
+
+            if (method === 'whatsapp') {
+                const whatsappNumber = '9779808846005';
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+                resultDiv.innerHTML = `
+                    <strong>Opening WhatsApp...</strong><br>
+                    Number: +977 9808846005<br>
+                    <small>A new window should open with WhatsApp Web</small>
+                `;
+                resultDiv.style.display = 'block';
+
+                window.open(whatsappUrl, '_blank');
+            } else {
+                const emailUrl = `mailto:anishaltacc@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+                resultDiv.innerHTML = `
+                    <strong>Opening Email Client...</strong><br>
+                    To: anishaltacc@gmail.com<br>
+                    <small>Your default email client should open</small>
+                `;
+                resultDiv.style.display = 'block';
+
+                window.open(emailUrl, '_blank');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Embassy Nepal — Anish Sharma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <style>
+        :root {
+            --bg-900: #0B0B0D;
+            --bg-800: #111116;
+            --accent: #334FB4;
+            /* US Government Blue */
+            --text-100: #F6F7FF;
+            --text-300: #A9A9BD;
+            --border: #27272A;
+        }
+
+        body {
+            background-color: var(--bg-900);
+            color: var(--text-100);
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+        }
+
+        .font-clash {
+            font-family: 'Clash Display', sans-serif;
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        /* Navigation Glassmorphism */
+        .glass-nav {
+            background: rgba(17, 17, 22, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+        }
+
+        .nav-link {
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        /* Project Specific Styles */
+        .badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .tag img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+
+        .tag i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 100px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(51, 79, 180, 0.2);
+        }
+
+        .section-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 80px 0;
+        }
+
+        .gallery-image {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.02);
+        }
+
+        #color-bends-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <div class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-fit">
+        <nav class="glass-nav flex items-center gap-8 px-8 py-3">
+            <div class="text-xl font-bold font-clash tracking-tighter mr-4">AS</div>
+            <div class="hidden md:flex items-center gap-8 text-[13px] font-medium text-text-300">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active text-white">Projects</a>
+                <a href="../contact.html" class="nav-link">Contact</a>
+            </div>
+        </nav>
+    </div>
+
+    <main class="relative pt-32 pb-32 px-6 md:px-12 lg:px-24">
+        <div id="color-bends-canvas"></div>
+
+        <div class="max-w-[1200px] mx-auto">
+            <!-- Breadcrumb & Year -->
+            <div class="flex justify-between items-center mb-12" data-aos="fade-up">
+                <a href="../projects.html"
+                    class="flex items-center gap-2 text-text-300 hover:text-white transition-colors group">
+                    <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
+                    <span class="text-sm font-medium uppercase tracking-widest">Back to Projects</span>
+                </a>
+                <span class="badge">2024</span>
+            </div>
+
+            <!-- Hero Image -->
+            <div class="mb-16" data-aos="fade-up" data-aos-delay="100">
+                <div class="rounded-[40px] overflow-hidden bg-[#1a1a1e] border border-white/5 shadow-2xl">
+                    <img src="../assets/american-banner.png" alt="US Embassy Nepal Handbook" class="w-full h-auto">
+                </div>
+            </div>
+
+            <!-- Title & CTA -->
+            <div class="flex flex-col md:row justify-between items-start md:items-center gap-8 mb-20"
+                data-aos="fade-up">
+                <h1
+                    class="font-clash font-semibold text-[clamp(2.5rem,6vw,5rem)] tracking-tighter leading-none text-white">
+                    US Embassy Nepal
+                </h1>
+            </div>
+
+            <!-- Project Info Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+                <div class="lg:col-span-8" data-aos="fade-up">
+                    <p class="text-xl text-text-300 leading-relaxed mb-10">
+                        The U.S. Embassy urgently needed to communicate complex U.S. higher education information to
+                        Nepali parents and students in a clear, accessible, and officially trustworthy format, all
+                        within a less than 24-hour deadline.
+                    </p>
+                    <span class="tag" style="background-color: #1A8974;">
+                        <img src="../assets/icons/print.svg" alt=""> Handbook Design
+                    </span>
+                    <span class="tag" style="background-color: #1A8974;">
+                        <img src="../assets/icons/print.svg" alt=""> Print Media
+                    </span>
+                    <span class="tag" style="background-color: #135CC5;">
+                        <img src="../assets/icons/rules.svg" alt=""> Branding
+                    </span>
+                    <span class="tag" style="background-color: #4828B6;">
+                        <img src="../assets/icons/web-design.svg" alt=""> Information Design
+                    </span>
+                </div>
+                <div class="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-12" data-aos="fade-up"
+                    data-aos-delay="100">
+                    <div>
+                        <h4 class="text-xs font-medium uppercase tracking-[0.2em] text-text-300 mb-4">Roles</h4>
+                        <p class="font-medium">Graphic Designer</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-medium uppercase tracking-[0.2em] text-text-300 mb-4">Client</h4>
+                        <p class="font-medium">U.S. Embassy Nepal</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Overview Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-32">
+                <div class="lg:col-span-4" data-aos="fade-up">
+                    <h2 class="font-clash text-4xl font-semibold tracking-tighter text-white">Overview</h2>
+                </div>
+                <div class="lg:col-span-8" data-aos="fade-up">
+                    <div class="space-y-6 text-text-300 leading-relaxed">
+                        <h3 class="font-clash text-2xl font-semibold tracking-tighter text-white">Needs</h3>
+                        <p>
+                            The requirement was for a high-quality, professional handbook design that organized vast
+                            amounts of data using clear visual hierarchy, iconography, and an authoritative yet
+                            encouraging tone.
+                        </p>
+                        <h3 class="font-clash text-2xl font-semibold tracking-tighter text-white">Solutions</h3>
+                        <p>
+                            The solution delivered a formal handbook structure using a strong grid system, clean
+                            typography, and the established U.S. government color palette for instant credibility. This
+                            comprehensive guide effectively broke down the complex application and degree process into
+                            highly digestible, trustworthy sections for the target audience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 md:px-12 lg:px-24 border-t border-white/5">
+        <div class="max-w-[1440px] mx-auto flex flex-col md:row justify-between items-center gap-8">
+            <p class="text-text-300 text-sm font-medium">© 2026 Anish Sharma. All rights reserved.</p>
+            <div class="flex items-center gap-8">
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-medium text-[12px] tracking-widest">Linkedin</a>
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-medium text-[12px] tracking-widest">Instagram</a>
+                <a href="#"
+                    class="text-text-300 hover:text-white transition-colors uppercase font-medium text-[12px] tracking-widest">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({ duration: 600, once: true, offset: 50, easing: 'ease-out-quad' });
+        lucide.createIcons();
+
+        // Color Bends Effect Logic
+        (function () {
+            const container = document.getElementById('color-bends-canvas');
+            if (!container) return;
+
+            const MAX_COLORS = 8;
+            const frag = `
+            #define MAX_COLORS ${MAX_COLORS}
+            uniform vec2 uCanvas;
+            uniform float uTime;
+            uniform float uSpeed;
+            uniform vec2 uRot;
+            uniform int uColorCount;
+            uniform vec3 uColors[MAX_COLORS];
+            uniform int uTransparent;
+            uniform float uScale;
+            uniform float uFrequency;
+            uniform float uWarpStrength;
+            uniform vec2 uPointer;
+            uniform float uMouseInfluence;
+            uniform float uParallax;
+            uniform float uNoise;
+            varying vec2 vUv;
+
+            void main() {
+              float t = uTime * uSpeed;
+              vec2 p = vUv * 2.0 - 1.0;
+              p += uPointer * uParallax * 0.1;
+              vec2 rp = vec2(p.x * uRot.x - p.y * uRot.y, p.x * uRot.y + p.y * uRot.x);
+              vec2 q = vec2(rp.x * (uCanvas.x / uCanvas.y), rp.y);
+              q /= max(uScale, 0.0001);
+              q /= 0.5 + 0.2 * dot(q, q);
+              q += 0.2 * cos(t);
+              vec2 toward = (uPointer - rp);
+              q += toward * uMouseInfluence * 0.2;
+
+                vec3 col = vec3(0.0);
+                float a = 1.0;
+
+                if (uColorCount > 0) {
+                  vec2 s = q;
+                  vec3 sumCol = vec3(0.0);
+                  float cover = 0.0;
+                  for (int i = 0; i < MAX_COLORS; ++i) {
+                        if (i >= uColorCount) break;
+                        s -= 0.01;
+                        vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+                        float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+                        float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+                        float kMix = pow(kBelow, 0.3);
+                        float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+                        vec2 disp = (r - s) * kBelow;
+                        vec2 warped = s + disp * gain;
+                        float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+                        float m = mix(m0, m1, kMix);
+                        float w = 1.0 - exp(-6.0 / exp(6.0 * m));
+                        sumCol += uColors[i] * w;
+                        cover = max(cover, w);
+                  }
+                  col = clamp(sumCol, 0.0, 1.0);
+                  a = uTransparent > 0 ? cover : 1.0;
+                } else {
+                    vec2 s = q;
+                    for (int k = 0; k < 3; ++k) {
+                        s -= 0.01;
+                        vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+                        float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+                        float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+                        float kMix = pow(kBelow, 0.3);
+                        float gain = gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+                        vec2 disp = (r - s) * kBelow;
+                        vec2 warped = s + disp * gain;
+                        float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+                        float m = mix(m0, m1, kMix);
+                        col[k] = 1.0 - exp(-6.0 / exp(6.0 * m));
+                    }
+                    a = uTransparent > 0 ? max(max(col.r, col.g), col.b) : 1.0;
+                }
+
+                if (uNoise > 0.0001) {
+                  float n = fract(sin(dot(gl_FragCoord.xy + vec2(uTime), vec2(12.9898, 78.233))) * 43758.5453123);
+                  col += (n - 0.5) * uNoise;
+                  col = clamp(col, 0.0, 1.0);
+                }
+
+                vec3 rgb = (uTransparent > 0) ? col * a : col;
+                gl_FragColor = vec4(rgb, a);
+            }
+            `;
+
+            const vert = `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = vec4(position, 1.0);
+            }
+            `;
+
+            const config = {
+                rotation: 120,
+                speed: 0.1,
+                colors: ['#334FB4', '#1F358C', '#0B1A4D'], // US Gov Blue palette
+                transparent: false,
+                scale: 1.5,
+                frequency: 1,
+                warpStrength: 1.2,
+                mouseInfluence: 0.4,
+                parallax: 0.2,
+                noise: 0.05
+            };
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+            const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'high-performance' });
+
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            const toVec3 = (hex) => {
+                const h = hex.replace('#', '').trim();
+                const v = h.length === 3
+                    ? [parseInt(h[0] + h[0], 16), parseInt(h[1] + h[1], 16), parseInt(h[2] + h[2], 16)]
+                    : [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+                return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
+            };
+
+            const uColorsArray = config.colors.map(toVec3);
+            while (uColorsArray.length < MAX_COLORS) uColorsArray.push(new THREE.Vector3(0, 0, 0));
+
+            const material = new THREE.ShaderMaterial({
+                vertexShader: vert,
+                fragmentShader: frag,
+                uniforms: {
+                    uCanvas: { value: new THREE.Vector2(container.clientWidth, container.clientHeight) },
+                    uTime: { value: 0 },
+                    uSpeed: { value: config.speed },
+                    uRot: { value: new THREE.Vector2(0, 0) },
+                    uColorCount: { value: config.colors.length },
+                    uColors: { value: uColorsArray },
+                    uTransparent: { value: config.transparent ? 1 : 0 },
+                    uScale: { value: config.scale },
+                    uFrequency: { value: config.frequency },
+                    uWarpStrength: { value: config.warpStrength },
+                    uPointer: { value: new THREE.Vector2(0, 0) },
+                    uMouseInfluence: { value: config.mouseInfluence },
+                    uParallax: { value: config.parallax },
+                    uNoise: { value: config.noise }
+                },
+                transparent: true
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const pointer = new THREE.Vector2(0, 0);
+            const pointerSmooth = new THREE.Vector2(0, 0);
+
+            window.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) * 2 - 1;
+                const y = -(e.clientY / window.innerHeight) * 2 + 1;
+                pointer.set(x, y);
+            });
+
+            window.addEventListener('resize', () => {
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                material.uniforms.uCanvas.value.set(container.clientWidth, container.clientHeight);
+            });
+
+            const clock = new THREE.Clock();
+            function animate() {
+                const elapsed = clock.getElapsedTime();
+                material.uniforms.uTime.value = elapsed;
+                const rad = (config.rotation * Math.PI) / 180;
+                material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
+                pointerSmooth.lerp(pointer, 0.05);
+                material.uniforms.uPointer.value.copy(pointerSmooth);
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+    </script>
+</body>
+
+</html>
